@@ -39,34 +39,20 @@ entry_titles.each { |title|
 p dictionary
 
 
-# testing below
+# # testing below
 
 
-pagination_links = doc.css(".archive-pagination > ul > li > a")
+# pagination_links = doc.css(".archive-pagination > ul > li > a")
 
-# pagination_links[3] has what needed (pg 44), 0,1,2,3 are the only ones in the array andall have numbers
-#  if pagination_links[5].nil?
-#  	loop through regex on 1-4 and store the numbers in an array then take max
+# # pagination_links[3] has what needed (pg 44), 0,1,2,3 are the only ones in the array andall have numbers
+# #  if pagination_links[5].nil?
+# #  	loop through regex on 1-4 and store the numbers in an array then take max
 
-#total_pagination_links
+# #total_pagination_links
 
-
-(0..50).each do |i| 
-	if pagination_links[i].nil? 
-		total_pagination_links = i - 1
-		p total_pagination_links
-		p total_pagination_links.class 
-		break 
-	end 	
-end
-
-p "outside block"
-p total_pagination_links
 
 # (0..50).each do |i| 
-# 	unless pagination_links[i].nil?
-# 		puts pagination_links[i].to_s.match(/Regexp.quote("Go to page</span> ")(.*)[<][/][a])
-# 	else 
+# 	if pagination_links[i].nil? 
 # 		total_pagination_links = i - 1
 # 		p total_pagination_links
 # 		p total_pagination_links.class 
@@ -74,11 +60,25 @@ p total_pagination_links
 # 	end 	
 # end
 
+# p "outside block"
+# p total_pagination_links
 
-all_pagination_links = []
+# # (0..50).each do |i| 
+# # 	unless pagination_links[i].nil?
+# # 		puts pagination_links[i].to_s.match(/Regexp.quote("Go to page</span> ")(.*)[<][/][a])
+# # 	else 
+# # 		total_pagination_links = i - 1
+# # 		p total_pagination_links
+# # 		p total_pagination_links.class 
+# # 		break 
+# # 	end 	
+# # end
 
-(0..total_pagination_links).each do |i|
-puts i 
-end 
 
-puts "Did i get skipped by exit?"
+# all_pagination_links = []
+
+# (0..total_pagination_links).each do |i|
+# puts i 
+# end 
+
+# puts "Did i get skipped by exit?"

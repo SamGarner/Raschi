@@ -1,9 +1,10 @@
  # pages other than the first/base: https://dailyitalianwords.com/category/italian-word-of-the-day/page/2/
-doc = Nokogiri::HTML(open(base_url).read)
 require 'nokogiri'
 require 'open-uri'
 
 base_url = 'https://dailyitalianwords.com/category/italian-word-of-the-day/'
+doc = Nokogiri::HTML(open(base_url).read)
+
 
 entry_titles = doc.css(".entry-title-link")
 
@@ -25,6 +26,8 @@ entry_titles = doc.css(".entry-title-link")
 # match_string.slice(25, match_string.length-27)
 
 dictionary = {}
+# temp to see run time
+p Time.now
 # it one, just double check the regex right quick
 entry_titles.each { |title|
 	string = title.to_s
@@ -41,15 +44,46 @@ p dictionary
 
 # testing below
 
-pagination_links = []
+pagination_numbers_to_compare = []
 
 doc.css(".archive-pagination > ul > li > a").each do |item|
+	if item.to_s.match(/\d+/)
+		pagination_numbers_to_compare.push(item.to_s.match(/\d+/).to_s.to_i)
+	end
+
 	#pagination_links << item.to_s.match(/Regexp.quote("span> ")(.*)[<]/).to_s
-	link = item.to_s#.inspect#.match(/Regexp.quote("span")(.*)[<]/).to_s
-	puts link
-	puts link.match(/Regexp.quote("span")(.*)[<]/).to_s
+	#link = item.to_s#.inspect#.match(/Regexp.quote("span")(.*)[<]/).to_s
+	#puts link
+	#puts link.match(/Regexp.quote("span")(.*)[<]/).to_s
 end
 
-p pagination_links
+p pagination_numbers_to_compare
+p pagination_numbers_to_compare.max()
+
+pagination_end = pagination_numbers_to_compare.max()
+pagination_numbers = (2..pagination_end)
+puts "pagi nums:"
+p pagination_numbers
+# https://dailyitalianwords.com/category/italian-word-of-the-day/page/2/
+
+pagination_numbers.each do |page_num|
+	page_url = "https://dailyitalianwords.com/category/italian-word-of-the-day/page/#{page_num}/"
+	pagedoc = Nokogiri::HTML(open(page_url).read)
+	post_titles = pagedoc.css(".entry-title-link")
+	post_titles.each do |title|
+		string = title.to_s
+		matched_it =  string.match(/#{Regexp.quote("Italian Word of the Day: ")}(.*)\s[(]/).to_s
+		matched_en = string.match(/[(](.*)[)]/).to_s
+		italian_word = matched_it.slice(25, matched_it.length-27).downcase
+		english_word = matched_en.slice(1, matched_en.length-2)
+		dictionary[italian_word] = english_word
+		puts "Italian word: #{italian_word}   ||   English word: #{english_word}"
+	end
+end
+
+ p dictionary
+# p Time.now
+# today = Time.now.strftime("%Y%m%d")
+# File.write("All_Kindle_Highlights #{today}.txt, From dailyitalianwords.com:\n#{dictionary}"
 
 # pagination_links = doc.css(".archive-pagination > ul > li > a")
