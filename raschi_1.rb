@@ -31,9 +31,9 @@ p Time.now
 # it one, just double check the regex right quick
 entry_titles.each { |title|
 	string = title.to_s
-	matched_it =  string.match(/#{Regexp.quote("Italian Word of the Day: ")}(.*)\s[(]/).to_s
+	matched_it =  string.match(/#{Regexp.quote("Italian Word of the Day")}(.*)\s[(]/).to_s
 	matched_en = string.match(/[(](.*)[)]/).to_s
-	italian_word = matched_it.slice(25, matched_it.length-27).downcase
+	italian_word = matched_it.slice(25, matched_it.length-27).downcase.lstrip
 	english_word = matched_en.slice(1, matched_en.length-2)
 	dictionary[italian_word] = english_word
 	puts "Italian word: #{italian_word}   ||   English word: #{english_word}"
@@ -72,18 +72,18 @@ pagination_numbers.each do |page_num|
 	post_titles = pagedoc.css(".entry-title-link")
 	post_titles.each do |title|
 		string = title.to_s
-		matched_it =  string.match(/#{Regexp.quote("Italian Word of the Day: ")}(.*)\s[(]/).to_s
+		matched_it =  string.match(/#{Regexp.quote("Italian Word of the Day")}(.*)\s[(]/).to_s
 		matched_en = string.match(/[(](.*)[)]/).to_s
-		italian_word = matched_it.slice(25, matched_it.length-27).downcase
+		italian_word = matched_it.slice(25, matched_it.length-27).downcase.lstrip
 		english_word = matched_en.slice(1, matched_en.length-2)
 		dictionary[italian_word] = english_word
 		puts "Italian word: #{italian_word}   ||   English word: #{english_word}"
 	end
 end
 
- p dictionary
-# p Time.now
-# today = Time.now.strftime("%Y%m%d")
-# File.write("All_Kindle_Highlights #{today}.txt, From dailyitalianwords.com:\n#{dictionary}"
+p dictionary
+p Time.now
 
-# pagination_links = doc.css(".archive-pagination > ul > li > a")
+today = Time.now.strftime("%Y%m%d")
+File.write("All_Italian_Definitions #{today}.txt", "From dailyitalianwords.com:\n#{dictionary}")
+
