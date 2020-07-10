@@ -26,6 +26,7 @@ entry_titles = doc.css(".entry-title-link")
 # match_string.slice(25, match_string.length-27)
 
 dictionary = {}
+export = "italiano:" + " "*33 + "English:\n\n"
 # temp to see run time
 p Time.now
 # it one, just double check the regex right quick
@@ -36,9 +37,16 @@ entry_titles.each { |title|
 	italian_word = matched_it.slice(25, matched_it.length-27).downcase.lstrip
 	english_word = matched_en.slice(1, matched_en.length-2)
 	dictionary[italian_word] = english_word
-	puts "Italian word: #{italian_word}   ||   English word: #{english_word}"
+	export << "#{italian_word}" + " "*(35-italian_word.length) + 
+	"||     #{english_word}\n"
+	puts "#{italian_word}" + " "*(35-italian_word.length) + 
+	"||     #{english_word}"
+	#puts "Italian word: #{italian_word}   ||   English word: #{english_word}"
 }
 
+p "export:"
+p export
+p "dictionary:"
 p dictionary
 
 
@@ -77,7 +85,10 @@ pagination_numbers.each do |page_num|
 		italian_word = matched_it.slice(25, matched_it.length-27).downcase.lstrip
 		english_word = matched_en.slice(1, matched_en.length-2)
 		dictionary[italian_word] = english_word
+		export << "#{italian_word}" + " "*(35-italian_word.length) + 
+			"||     #{english_word}\n"
 		puts "Italian word: #{italian_word}   ||   English word: #{english_word}"
+		puts italian_word.length
 	end
 end
 
@@ -85,5 +96,5 @@ p dictionary
 p Time.now
 
 today = Time.now.strftime("%Y%m%d")
-File.write("All_Italian_Definitions #{today}.txt", "From dailyitalianwords.com:\n#{dictionary}")
+File.write("All_Italian_Definitions #{today}.txt", "From dailyitalianwords.com:\n\n#{export}")
 
