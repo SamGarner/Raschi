@@ -67,4 +67,3 @@ end
 today = Time.now.strftime("%Y%m%d")
 File.write("Italian_Definitions #{today}.txt", 
 	"From dailyitalianwords.com:\n\n#{export}")
-
